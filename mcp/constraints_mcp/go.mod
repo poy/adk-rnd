@@ -1,4 +1,4 @@
-module github.com/poy/adk-rnd/mcp/human_in_the_loop_wrapper
+module github.com/poy/adk-rnd/mcp/constraints_mcp
 
 go 1.24.4
 

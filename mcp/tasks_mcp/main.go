@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -13,6 +14,7 @@ import (
 )
 
 func main() {
+	log.SetFlags(0)
 	// Create a new MCP server
 	s := server.NewMCPServer(
 		"Tasks",
@@ -67,7 +69,7 @@ func main() {
 
 	// Start the stdio server
 	if err := server.ServeStdio(s); err != nil {
-		fmt.Printf("Server error: %v\n", err)
+		log.Fatalf("Server error: %v", err)
 	}
 }
 
@@ -159,18 +161,10 @@ func (s *tasksToolSet) listTasksHandler(ctx context.Context, request mcp.CallToo
 		return results[i].Created.UnixNano() < results[j].Created.UnixNano()
 	})
 
-	var strResults []string
-	for _, r := range results {
-		complete := " "
-		if r.Done {
-			complete = "X"
-		}
-		strResults = append(strResults, fmt.Sprintf("- [%s] (id=%s) %s -> (%v)", complete, r.ID, r.Description, r.Created.Format("2006/01/02 15:04:05.000")))
-
-		for _, u := range r.StatusUpdate {
-			strResults = append(strResults, fmt.Sprintf("  - %s -> (%v)", u.Description, u.Updated.Format("2006/01/02 15:04:05.000")))
-		}
+	data, err := json.Marshal(results)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal tasks: %w", err)
 	}
 
-	return mcp.NewToolResultText(strings.Join(strResults, "\n")), nil
+	return mcp.NewToolResultText(string(data)), nil
 }

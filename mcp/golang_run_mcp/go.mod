@@ -1,4 +1,4 @@
-module github.com/poy/adk-rnd/mcp/tasks
+module github.com/poy/adk-rnd/mcp/golang_run_mcp
 
 go 1.24.4
 
