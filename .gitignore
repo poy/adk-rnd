@@ -1,3 +1,22 @@
 venv/
 .env
 __pycache__/
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+mcp/*/main
+mcp/*/*/main
+mcp/*/*/*/main
+mcp/tasks_mcp/tasks_mcp
+mcp/golang_run_mcp/golang_run_mcp
+mcp/adk_agent_runner_mcp/adk_agent_runner_mcp
+mcp/static_json_mcp/static_json_mcp
+mcp/long_running_tasks_mcp/long_running_tasks_mcp
+mcp/constraints_mcp/constraints_mcp
+mcp/http_mcp/http_mcp
+mcp/logger_mcp/logger_mcp
+mcp/sqlite_mcp/sqlite_mcp
